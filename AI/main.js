@@ -1,7 +1,7 @@
 let roleWorker = require('role.worker');
 
 module.exports.loop = function() {
-    
+
     let myWorkers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker');
     
     if(myWorkers.length < 8){

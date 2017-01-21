@@ -1,11 +1,11 @@
-let S_IDLE = 0;
-let S_GATHER = 1;
-let S_TRANSFER = 2;
-let S_UPGRADE = 3;
-let S_BUILD = 4;
-
 let roleWorker = {
     
+    S_IDLE : 0,
+    S_GATHER : 1,
+    S_TRANSFER : 2,
+    S_UPGRADE : 3,
+    S_BUILD : 4,
+
     findClosestTransferTarget:function(creep){
         return creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (structure) => {
@@ -44,17 +44,17 @@ let roleWorker = {
     },
     
     updateState:function(creep){
-        if(creep.memory.state === S_IDLE) {
-            creep.memory.state = S_GATHER;
+        if(creep.memory.state === this.S_IDLE) {
+            creep.memory.state = this.S_GATHER;
             creep.memory.target = null;
             return;
         }
         
-        if(creep.memory.state === S_GATHER){
+        if (creep.memory.state === this.S_GATHER) {
             if(creep.carry.energy === creep.carryCapacity){
                 let target = this.findClosestTransferTarget(creep);
                 if(target){
-                    creep.memory.state = S_TRANSFER;
+                    creep.memory.state = this.S_TRANSFER;
                     creep.memory.target = target.id;
                     creep.memory.debug2 = 'found transfer target ' + target.id;
                     return;
@@ -62,43 +62,43 @@ let roleWorker = {
                 
                 let buildTarget = this.findClosestBuildTarget(creep);
                 if(buildTarget){
-                    creep.memory.state = S_BUILD;
+                    creep.memory.state = this.S_BUILD;
                     creep.memory.target = buildTarget.id;
                     creep.debug2 = 'found build target ' + buildTarget.id;
                     return;
                 }
-                creep.memory.state = S_UPGRADE;
+                creep.memory.state = this.S_UPGRADE;
                 creep.memory.target = null;
                 creep.memory.debug2 = 'didnt find transfer target';
             }
             return;
         }
         
-        if(creep.memory.state === S_BUILD){
+        if (creep.memory.state === this.S_BUILD) {
             if(creep.carry.energy === 0){
-                creep.memory.state = S_GATHER;
+                creep.memory.state = this.S_GATHER;
                 creep.memory.target = null;
             }
-            if(creep.memory.target === null){
+            if (creep.memory.target === this.null) {
                 creep.memory.state = S_IDLE;
             }
             return;
         }
         
-        if(creep.memory.state === S_TRANSFER){
+        if (creep.memory.state === this.S_TRANSFER) {
             if(creep.carry.energy === 0){
-                creep.memory.state = S_GATHER;
+                creep.memory.state = this.S_GATHER;
                 creep.memory.target = null;
             }
             if(creep.memory.target === null){
-                creep.memory.state = S_IDLE;
+                creep.memory.state = this.S_IDLE;
             }
             return;
         }
         
-        if(creep.memory.state === S_UPGRADE){
+        if (creep.memory.state === this.S_UPGRADE) {
             if(creep.carry.energy === 0){
-                creep.memory.state = S_GATHER;
+                creep.memory.state = this.S_GATHER;
                 creep.memory.target = null;
             }
             return;
@@ -106,7 +106,7 @@ let roleWorker = {
     },
     
     executeState:function(creep){
-        if(creep.memory.state === S_GATHER){
+        if (creep.memory.state === this.S_GATHER) {
             if(creep.memory.target === null){
                 let target = this.findClosestSource(creep);
                 
@@ -130,7 +130,7 @@ let roleWorker = {
             }
         }
         
-        if(creep.memory.state === S_BUILD){
+        if (creep.memory.state === this.S_BUILD) {
             if(creep.memory.target === null){
                 let target = this.findClosestBuildTarget(creep);
                 
@@ -153,7 +153,7 @@ let roleWorker = {
             }
         }
         
-        if(creep.memory.state === S_TRANSFER){
+        if (creep.memory.state === this.S_TRANSFER) {
             if(creep.memory.target === null){
                 let target = this.findClosestTransferTarget(creep);
                 
@@ -176,7 +176,7 @@ let roleWorker = {
             }
         }
         
-        if(creep.memory.state === S_UPGRADE){
+        if (creep.memory.state === this.S_UPGRADE) {
             if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE){
                 creep.moveTo(creep.room.controller);
             }
