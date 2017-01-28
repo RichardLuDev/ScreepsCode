@@ -1,4 +1,5 @@
 let roleWorker = require('role.worker');
+let buildingTower = require('building.tower');
 
 module.exports.loop = function() {
 
@@ -13,6 +14,13 @@ module.exports.loop = function() {
         let creep = Game.creeps[name];
         if(creep.memory.role === 'worker'){
             roleWorker.run(creep);
+        }
+    }
+
+    for (let name in Game.structures) {
+        let structure = Game.structures[name];
+        if (structure.structureType === STRUCTURE_TOWER) {
+            buildingTower.run(structure);
         }
     }
 }
