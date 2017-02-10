@@ -39,14 +39,11 @@ let roomManager = {
         }
 
         //Assign work to miners
-        let energySourcesInfo = getEnergySourcesInfo(room);
+        let energySourcesInfo = this.getEnergySourcesInfo(room);
 
         for (let i = 0; i < miners.length; i++) {
             let miner = miners[i];
-            if (miner.spawning) continue;
-            
-            if (miner.memory.target) {
-            }
+            this.addMinerToSourcesInfo(energySourcesInfo, miner);
         }
     },
 

@@ -1,6 +1,9 @@
 ﻿let roleMiner = {
     S_IDLE: 0,
     S_GATHER: 1,
+    S_MOVE: 2,
+
+    //TODO: Add logic to separate gather from move. So that room can detect when miner is not at destination yet.
 
     updateState: function (miner) {
         if (miner.memory.state === this.S_IDLE) {
